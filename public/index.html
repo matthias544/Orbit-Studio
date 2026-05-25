@@ -168,6 +168,19 @@
   .coaching-features li::before { content: '✓ '; color: var(--accent); font-weight: bold; }
   .team-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(255,100,0,0.15); color: #ff6400; border: 1px solid rgba(255,100,0,0.3); border-radius: 3px; }
   .projekt-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 2px; background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid var(--border); }
+  .projekt-card-link { text-decoration: none; color: inherit; display: block; }
+  .projekt-card-link .projekt-card { transition: all 0.25s; cursor: pointer; }
+  .projekt-card-link .projekt-card:hover { border-color: var(--accent2); background: rgba(255,0,127,0.04); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,0,127,0.1); }
+  .eigene-games-hint { margin-top: 1rem; font-size: 0.8rem; color: var(--accent2); font-weight: 600; letter-spacing: 0.1em; }
+  .downloads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .download-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 5; backdrop-filter: blur(5px); transition: all 0.25s; }
+  .download-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,200,255,0.1); }
+  .download-card-icon { font-size: 2.5rem; }
+  .download-card-name { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; color: var(--text); }
+  .download-card-desc { font-size: 0.9rem; color: var(--text-muted); flex: 1; }
+  .download-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(0,200,255,0.1); color: var(--accent); border: 1px solid var(--border); border-radius: 3px; display: inline-block; margin-bottom: 0.5rem; }
+  .admin-downloads { background: rgba(0,200,255,0.04); border: 1px dashed var(--accent); padding: 1.5rem; border-radius: 6px; margin-bottom: 2rem; display: none; }
+  .admin-downloads.visible { display: block; }
 
   /* ===== SPIELE GRID ===== */
   .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem; }
@@ -184,7 +197,17 @@
   .socials-logo-container { display: flex; justify-content: center; align-items: center; margin-top: 3.5rem; width: 100%; position: relative; z-index: 5; }
   .socials-logo { max-width: 320px; height: auto; border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; background: rgba(10, 14, 23, 0.5); box-shadow: 0 0 25px rgba(0, 200, 255, 0.08); }
 
-  /* ===== TABLES ===== */
+  /* ===== DOWNLOADS ===== */
+  .downloads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .download-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; position: relative; z-index: 5; backdrop-filter: blur(5px); transition: all 0.2s; }
+  .download-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .download-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--accent); }
+  .download-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+  .download-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 2px; background: rgba(155,81,224,0.15); color: #c596ff; border: 1px solid rgba(155,81,224,0.3); }
+  .projekt-card-link { cursor: pointer; transition: all 0.2s; text-decoration: none; color: inherit; display: block; }
+  .projekt-card-link:hover .projekt-card { border-color: var(--accent2); background: rgba(255,0,127,0.03); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,0,127,0.1); }
+  .projekt-card-link .projekt-card { transition: all 0.2s; }
+  .eigene-games-hint { font-size: 0.75rem; color: var(--accent2); margin-top: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg); position: relative; z-index: 5; backdrop-filter: blur(5px); }
   table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
   thead { background: rgba(0,200,255,0.05); border-bottom: 1px solid var(--border-hover); }
@@ -413,6 +436,36 @@
   </div>
 </div>
 
+<!-- DOWNLOADS -->
+<div id="page-downloads" class="page-view">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Orbit Dev-Studio</div>
+      <h2 class="section-title">Downloads</h2>
+      <div class="divider"></div>
+      <p style="color: var(--text-muted);">Unsere selbst entwickelten Programme und Spiele zum kostenlosen Download.</p>
+    </div>
+
+    <div class="admin-downloads" id="adminDownloads">
+      <h3 style="font-family:'Rajdhani'; color:var(--accent2);">⚙️ Download verwalten (Admin)</h3>
+      <div class="admin-flex" style="margin-top:1rem;">
+        <input type="text" id="dlName" placeholder="Name (z.B. Cookie Clicker)" class="form-control" style="max-width:220px;">
+        <input type="text" id="dlBeschreibung" placeholder="Kurzbeschreibung" class="form-control" style="flex:1; min-width:250px;">
+        <input type="text" id="dlVersion" placeholder="Version (z.B. v1.0)" class="form-control" style="max-width:120px;">
+        <input type="text" id="dlLink" placeholder="Download-Link (Google Drive etc.)" class="form-control" style="flex:1; min-width:250px;">
+        <input type="text" id="dlIcon" placeholder="Emoji Icon (z.B. 🎮)" class="form-control" style="max-width:100px;">
+        <button class="btn btn-primary btn-sm" onclick="addDownload()">+ Hinzufügen</button>
+      </div>
+    </div>
+
+    <div class="downloads-grid" id="downloadsGrid">
+      <div style="color: var(--text-muted); font-size:0.9rem; grid-column: 1/-1; text-align:center; padding: 3rem 0;">
+        Noch keine Downloads verfügbar – bald kommen unsere ersten Projekte!
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- DEV-STUDIO -->
 <div id="page-projekte" class="page-view">
   <div class="container">
@@ -422,11 +475,14 @@
       <div class="divider"></div>
     </div>
     <div class="projekte-grid">
-      <div class="projekt-card">
-        <span class="projekt-badge">In Entwicklung</span>
-        <h3>Eigene Games</h3>
-        <p>Als eigenständiges Entwicklerstudio planen, konzipieren und coden wir unsere eigenen Spiele für den globalen Gaming-Markt.</p>
-      </div>
+      <a href="#downloads" class="projekt-card-link">
+        <div class="projekt-card">
+          <span class="projekt-badge">In Entwicklung</span>
+          <h3>Eigene Games</h3>
+          <p>Als eigenständiges Entwicklerstudio planen, konzipieren und coden wir unsere eigenen Spiele für den globalen Gaming-Markt.</p>
+          <div class="eigene-games-hint">▸ Downloads ansehen</div>
+        </div>
+      </a>
       <div class="projekt-card">
         <span class="projekt-badge">Einsatzbereit</span>
         <h3>Orbit Dashboard &amp; API</h3>
@@ -485,6 +541,7 @@
     const activePage = document.getElementById('page-' + hash.replace('#', ''));
     if (activePage) activePage.classList.add('active-page');
     if (hash === "#events") loadEvents();
+    if (hash === "#downloads") loadDownloads();
     navLinks.classList.remove('open');
   }
   window.addEventListener('hashchange', navigateToPage);
@@ -510,8 +567,10 @@
         isAdmin = true;
         toggleLoginModal(false);
         document.getElementById('adminPanel').classList.add('visible');
+        document.getElementById('adminDownloads').classList.add('visible');
         document.getElementById('loginFooterBtn').innerText = "🔓 Eingeloggt";
         loadEvents();
+        loadDownloads();
         alert("Zugriff gewährt. Orbit-Kontrollzentrum aktiv.");
       } else {
         alert(data.message);
@@ -569,6 +628,64 @@
       fetch(`/api/events/${id}`, { method: 'DELETE' })
       .then(res => res.json())
       .then(data => { if(data.success) loadEvents(); });
+    }
+  }
+
+  /* DATENBANK ACTIONS (DOWNLOADS) */
+  function loadDownloads() {
+    fetch('/api/downloads')
+    .then(res => res.json())
+    .then(downloads => {
+      const grid = document.getElementById('downloadsGrid');
+      grid.innerHTML = '';
+      if(downloads.length === 0) {
+        grid.innerHTML = '<div style="color: var(--text-muted); font-size:0.9rem; grid-column: 1/-1; text-align:center; padding: 3rem 0;">Noch keine Downloads verfügbar – bald kommen unsere ersten Projekte!</div>';
+        return;
+      }
+      downloads.forEach(dl => {
+        const card = document.createElement('div');
+        card.className = 'download-card';
+        card.innerHTML = `
+          <div class="download-card-icon">${dl.icon || '🎮'}</div>
+          <span class="download-badge">Download</span>
+          <div class="download-card-name">${dl.name}</div>
+          <div class="download-card-desc">${dl.beschreibung}</div>
+          <div class="download-card-meta"><span>Version: ${dl.version || 'v1.0'}</span></div>
+          <a href="${dl.link}" target="_blank" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">⬇ Herunterladen</a>
+          ${isAdmin ? `<button class="btn-danger" style="margin-top:0.5rem;" onclick="deleteDownload(${dl.id})">Löschen</button>` : ''}
+        `;
+        grid.appendChild(card);
+      });
+    })
+    .catch(() => {});
+  }
+
+  function addDownload() {
+    const name = document.getElementById('dlName').value;
+    const beschreibung = document.getElementById('dlBeschreibung').value;
+    const version = document.getElementById('dlVersion').value;
+    const link = document.getElementById('dlLink').value;
+    const icon = document.getElementById('dlIcon').value;
+    if(!name || !link) { alert('Name und Link sind Pflichtfelder!'); return; }
+    fetch('/api/downloads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, beschreibung, version, link, icon })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.success) {
+        loadDownloads();
+        ['dlName','dlBeschreibung','dlVersion','dlLink','dlIcon'].forEach(id => document.getElementById(id).value = '');
+      }
+    });
+  }
+
+  function deleteDownload(id) {
+    if(confirm("Download wirklich löschen?")) {
+      fetch(`/api/downloads/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => { if(data.success) loadDownloads(); });
     }
   }
 
