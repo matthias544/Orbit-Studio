@@ -661,24 +661,31 @@
   }
 
   function addDownload() {
-    const name = document.getElementById('dlName').value;
-    const beschreibung = document.getElementById('dlBeschreibung').value;
-    const version = document.getElementById('dlVersion').value;
-    const link = document.getElementById('dlLink').value;
-    const icon = document.getElementById('dlIcon').value;
+    const name = document.getElementById('dlName').value.trim();
+    const beschreibung = document.getElementById('dlBeschreibung').value.trim();
+    const version = document.getElementById('dlVersion').value.trim();
+    const link = document.getElementById('dlLink').value.trim();
+    const icon = document.getElementById('dlIcon').value.trim();
     if(!name || !link) { alert('Name und Link sind Pflichtfelder!'); return; }
     fetch('/api/downloads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, beschreibung, version, link, icon })
+      body: JSON.stringify({ name, beschreibung, version: version || 'v1.0', link, icon: icon || '🎮' })
     })
-    .then(res => res.json())
+    .then(res => {
+      if(!res.ok) throw new Error('Server Fehler: ' + res.status);
+      return res.json();
+    })
     .then(data => {
       if(data.success) {
         loadDownloads();
         ['dlName','dlBeschreibung','dlVersion','dlLink','dlIcon'].forEach(id => document.getElementById(id).value = '');
+        alert('Download erfolgreich hinzugefügt!');
+      } else {
+        alert('Fehler: ' + JSON.stringify(data));
       }
-    });
+    })
+    .catch(err => alert('Verbindungsfehler: ' + err.message));
   }
 
   function deleteDownload(id) {
